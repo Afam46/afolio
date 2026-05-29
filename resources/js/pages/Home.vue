@@ -4,6 +4,7 @@
 
         <main>
             <HeroSection />
+            <AiTerminal/>
             <AboutSection />
             <ProjectsSection />
             <ContactsSection />
@@ -20,5 +21,6 @@ import AboutSection from '../layouts/home/AboutSection.vue'
 import ProjectsSection from '../layouts/home/ProjectsSection.vue'
 import ContactsSection from '../layouts/home/ContactsSection.vue'
 import FormSection from '../layouts/home/FormSection.vue'
+import AiTerminal from '../layouts/home/AiTerminal.vue'
 
 </script>

@@ -2,7 +2,7 @@
     <header class="border-b border-white/10 backdrop-blur">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
             <h1 class="text-2xl font-bold tracking-wide text-cyan-400">
-                Devfolio
+                Afolio
             </h1>
 
             <nav class="flex gap-6 text-sm text-gray-300">

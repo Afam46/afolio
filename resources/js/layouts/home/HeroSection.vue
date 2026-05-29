@@ -12,7 +12,7 @@
             <p class="mb-8 text-lg leading-8 text-gray-300">
                 Fullstack-разработчик с фокусом на Laravel + Vue.
                 Разрабатываю API, Telegram-ботов, realtime-приложения,
-                AI-интеграции и современные SPA.
+                AI-интеграции и современные SPA
             </p>
 
             <div class="flex gap-4">
