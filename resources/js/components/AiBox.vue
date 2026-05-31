@@ -20,6 +20,7 @@
 
         <input
             v-model="aiTopic"
+            @keydown.enter.prevent="generateMessage"
             type="text"
             placeholder="Ключевые слова для комментария"
             class="w-full rounded-xl border border-white/10 bg-[#020617]
@@ -28,7 +29,6 @@
 
         <button
             @click="generateMessage"
-            @keydown.enter.prevent="generateMessage"
             :disabled="aiLoading"
             type="button"
             class="mt-4 w-full rounded-xl bg-cyan-500 px-6 py-3
@@ -95,10 +95,8 @@ const generateMessage = async () => {
 
 const handleClickOutside = (event) => {
 
-    if(
-        aiModal.value &&
-        !aiModal.value.contains(event.target)
-    ){
+    if(aiModal.value && !aiModal.value.contains(event.target)){
+
         emit('close')
     }
 }
