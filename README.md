@@ -1,58 +1,141 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Afolio
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Afolio — персональный fullstack-проект, разработанный в рамках тестового задания
 
-## About Laravel
+Проект представляет собой SPA-портфолио разработчика с Laravel API, системой обратной связи, AI-интеграциями и интерактивным AI Terminal
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Demo
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+http://155.212.147.12:8090
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Стек
 
-## Learning Laravel
+| Категория | Технологии |
+|------------|------------|
+| Frontend | Vue 3, Vue Router, Axios, TailwindCSS, Vite |
+| Backend | Laravel, REST API |
+| AI | DeepSeek API |
+| Mail | Laravel Mail |
+| DevOps | Docker, Nginx, PHP-FPM, Ubuntu |
+| Other | Git, Composer, NPM |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Возможности
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Информация о разработчике
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+На сайте представлены:
 
-## Agentic Development
+- стек технологий
+- опыт разработки
+- проекты
+- контакты
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Форма обратной связи
+
+Форма содержит поля:
+
+* имя
+* телефон
+* email
+* комментарий
+
+После отправки:
+
+* письмо отправляется владельцу сайта
+* копия письма отправляется пользователю
+* реализованы loading/success/error состояния
+* реализована серверная валидация
+
+### AI генерация комментария
+
+Пользователь может указать тему сообщения
+
+После нажатия на кнопку AI генерирует готовый комментарий через DeepSeek API и автоматически подставляет его в форму
+
+### AI Terminal
+
+На сайте реализован интерактивный AI терминал
+
+AI знает информацию о разработчике и отвечает на вопросы в стиле Linux terminal
+
+Используются:
+
+* Laravel API
+* DeepSeek API
+* кастомный system prompt
+* анимация печати текста
+
+## Запуск проекта
+
+### Backend
 
 ```bash
-composer require laravel/boost --dev
+git clone https://github.com/Afam46/afolio.git
+cd afolio
+composer install
+cp .env.example .env
 
-php artisan boost:install
+# в .env настроить DEEPSEEK_API_KEY и MAIL
+
+php artisan key:generate
+php artisan migrate
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Frontend
 
-## Contributing
+```bash
+npm install
+npm run dev
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## AI инструменты
 
-## Code of Conduct
+Во время разработки использовались:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* ChatGPT
+* DeepSeek
 
-## Security Vulnerabilities
+AI использовался для:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* генерации идей
+* ускорения верстки
+* рефакторинга
+* поиска ошибок
 
-## License
+## Что было исправлено вручную
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* структура проекта
+* интеграция frontend и backend
+* работа с Laravel Mail
+* адаптивность интерфейса
+* обработка ошибок
+* AI Terminal
+* деплой проекта
+
+## Архитектура
+
+```text
+┌─────────────┐
+│   Vue SPA   │
+└──────┬──────┘
+       │ Axios
+       ▼
+┌─────────────┐
+│ Laravel API │
+└──────┬──────┘
+       │
+       ├────────► Mail Service
+       │
+       └────────► DeepSeek API
+```
+
+## Особенности проекта
+
+- Адаптивная верстка
+- SPA архитектура
+- Отправка email владельцу и пользователю
+- AI генерация комментариев
+- Интерактивный AI Terminal
+- Обработка ошибок и состояний загрузки
+- Развертывание на VPS
