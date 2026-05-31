@@ -17,7 +17,6 @@ http://155.212.147.12:8090
 | AI | DeepSeek API |
 | Mail | Laravel Mail |
 | DevOps | Docker, Nginx, PHP-FPM, Ubuntu |
-| Database | MySQL |
 | Other | Git, Composer, NPM |
 
 ## Возможности
