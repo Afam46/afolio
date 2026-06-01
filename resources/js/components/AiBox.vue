@@ -51,6 +51,7 @@ import axios from 'axios'
 import { ref, onMounted, onBeforeUnmount, defineEmits } from 'vue'
 
 const emit = defineEmits([
+    'close',
     'error',
     'success',
     'generated'
@@ -87,12 +88,13 @@ const generateMessage = async () => {
         })
 
         emit('generated', res.data.message)
+        emit('success', res.data.success)
 
         aiTopic.value = ''
+
         emit('close')
 
     }catch(err){
-
         emit('error', 'Ошибка AI генерации')
     }
 

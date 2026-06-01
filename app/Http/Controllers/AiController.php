@@ -31,7 +31,8 @@ class AiController extends Controller
         ]);
 
         return response()->json([
-            'message' => $response['choices'][0]['message']['content']
+            'message' => $response['choices'][0]['message']['content'],
+            'success' => 'Комментарий успешно сгенерирован!'
         ]);
     }
 }

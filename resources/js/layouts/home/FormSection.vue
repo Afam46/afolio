@@ -53,6 +53,7 @@
                 v-if="showAiBox"
                 @close="showAiBox = false"
                 @error="showError($event)"
+                @success="showSuccess($event)"
                 @generated="form.message = $event"
             />
             
@@ -73,24 +74,51 @@
                 >
                     ✨ AI
                 </button>
-            </div>
-            <div class="mb-3 h-0.5 w-0.5">
-                 <p
-                    v-if="successMessage && !errorMessage"
-                    class="text-green-400 absolute"
-                >
-                    {{ successMessage }}
-                </p>
-
-                <p
-                    v-if="errorMessage"
-                    class="text-red-400 absolute"
-                >
-                    {{ errorMessage }}
-                </p>
-            </div>
-           
+            </div>  
         </form>
+
+        <Transition
+            enter-active-class="transition duration-300 ease-out"
+            enter-from-class="transform translate-y-2 opacity-0"
+            enter-to-class="transform translate-y-0 opacity-100"
+            leave-active-class="transition duration-200 ease-in"
+            leave-from-class="transform translate-y-0 opacity-100"
+            leave-to-class="transform translate-y-2 opacity-0"
+        >
+            <div
+                v-if="successMessage"
+                class="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-2xl
+                border border-green-500/20 bg-green-500/10 p-4 text-green-400 shadow-lg backdrop-blur-sm"
+            >
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm font-medium">{{ successMessage }}</span>
+            </div>
+        </Transition>
+
+        <Transition
+            enter-active-class="transition duration-300 ease-out"
+            enter-from-class="transform translate-y-2 opacity-0"
+            enter-to-class="transform translate-y-0 opacity-100"
+            leave-active-class="transition duration-200 ease-in"
+            leave-from-class="transform translate-y-0 opacity-100"
+            leave-to-class="transform translate-y-2 opacity-0"
+        >
+            <div
+                v-if="errorMessage"
+                class="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-2xl
+                border border-red-500/20 bg-red-500/10 p-4 text-red-400 shadow-lg backdrop-blur-sm"
+            >
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                <span class="text-sm font-medium">{{ errorMessage }}</span>
+            </div>
+        </Transition>
+
     </section>
 </template>
 
@@ -105,6 +133,7 @@ const loading = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
 const errorTimeout = ref(null)
+const successTimeout = ref(null)
 
 const form = reactive({
     name: '',
@@ -115,20 +144,28 @@ const form = reactive({
 
 const submitForm = async () => {
 
+    errorMessage.value = ''
+
+    if(form.phone && !validatePhone(form.phone)){
+        showError('Введите корректный номер телефона!')
+        return
+    }else if(form.email && !validateEmail(form.email)){
+        showError('Введите корректный email!')
+        return
+    }
+
     loading.value = true
  
     try{
 
         const res = await axios.post('/api/contact', form)
 
-        successMessage.value = res.data.message
+        showSuccess(res.data.message)
 
         form.name = ''
         form.email = ''
         form.phone = ''
         form.message = ''
-
-        setTimeout(() => { successMessage.value = '' }, 2000)
 
     }catch(err){
 
@@ -156,5 +193,34 @@ const showError = (message) => {
     errorTimeout.value = setTimeout(() => {
         errorMessage.value = ''
     }, 2000)
+}
+
+const showSuccess = (message) => {
+
+    successMessage.value = message
+
+    if(successTimeout.value){
+        clearTimeout(successTimeout.value)
+    }
+
+    successTimeout.value = setTimeout(() => {
+        successMessage.value = ''
+    }, 2000)
+}
+
+const validatePhone = (phone) => {
+    const cleaned = phone.replace(/[\s\-\(\)\+]/g, '')
+    const phoneRegex = /^(\+7|7|8|9)?(\d{10})$/
+    
+    if(!cleaned || cleaned.length < 10 || cleaned.length > 11){
+        return false
+    }
+    
+    return phoneRegex.test(cleaned)
+}
+
+const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/
+    return emailRegex.test(email)
 }
 </script>
